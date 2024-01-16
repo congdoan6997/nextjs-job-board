@@ -1,5 +1,4 @@
 import { JobFilterSchema, JobFilterValues } from "@/lib/validation";
-import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";

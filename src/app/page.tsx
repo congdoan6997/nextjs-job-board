@@ -1,10 +1,7 @@
-import Image from "next/image";
-import prisma from "@/lib/prisma";
-import JobListItem from "@/components/JobListItem";
 import JobFilterSidebar from "@/components/JobFilterSidebar";
 import JobResults from "@/components/JobResults";
 import { JobFilterValues } from "@/lib/validation";
-
+import { Metadata } from "next";
 interface HomeProps {
   searchParams: {
     q?: string;
@@ -13,7 +10,29 @@ interface HomeProps {
     remote?: string;
   };
 }
-
+function getTitle({ q, type, location, remote }: JobFilterValues) {
+  const titlePrefix = q
+    ? `${q} jobs`
+    : type
+      ? `${type} dev jobs`
+      : remote
+        ? "Remote jobs"
+        : "All dev jobs";
+  const titleSuffix = location ? `in ${location}` : "";
+  return `${titlePrefix} ${titleSuffix}`;
+}
+export function generateMetadata({
+  searchParams: { q, type, location, remote },
+}: HomeProps): Metadata {
+  return {
+    title: `${getTitle({
+      q,
+      type,
+      location,
+      remote: remote === "true",
+    })} | Flow Jobs`,
+  };
+}
 export default async function Home({
   searchParams: { q, type, location, remote },
 }: HomeProps) {
